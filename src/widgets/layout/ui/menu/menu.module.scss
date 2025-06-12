@@ -1,0 +1,21 @@
+.menu {
+  padding: 0 var(--spacing-3xs);
+
+  :global(.MenuItem) {
+    margin: var(--spacing-4xs);
+  }
+
+  :global(.ListItemButton_selected) {
+    background: var(--list-item-bg-color-hover);
+  }
+
+  :global(.ListItemButton_selected):after {
+    inline-size: var(--spacing-4xs);
+    block-size: var(--spacing-s);
+    background: var(--color-background-main-inverse);
+  }
+
+  svg, span {
+    color: var(--color-content-accent-primary) !important;
+  }
+}

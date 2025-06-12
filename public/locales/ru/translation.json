@@ -1,0 +1,14 @@
+{
+  "deleteUser": "Удалить пользователя",
+  "whatHow": "{{what}} - это {{how}}",
+  "layout": {
+    "sider": {
+      "title": "Bereke DeepMind",
+      "menu": {
+        "foreignContracts": "Валютные контракты"
+      },
+      "user": "Пользователь",
+      "online": "Online"
+    }
+  }
+}

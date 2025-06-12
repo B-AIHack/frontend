@@ -1,0 +1,25 @@
+.sider {
+  width: 256px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.iconContainer {
+  width: 40px;
+  height: 40px;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-m);
+}
+
+.icon {
+  color: var(--color-content-tertiary);
+}
+
+.menuContainer {
+  flex: 1;
+}
+
+.accountContainer {
+  flex: 0;
+}
