@@ -10,5 +10,26 @@
       "user": "Пользователь",
       "online": "Online"
     }
+  },
+  "dataGrid": {
+    "nothingFound": "Ничего не нашли",
+    "visibleItemsAmount": "Записей на странице"
+  },
+  "contractsPage": {
+    "number": "Номер контракта",
+    "dateTime": "Дата и время",
+    "status": "Статус",
+    "startAnalyze": "Запустить анализ",
+    "filesLoading": "Файлы загружаются",
+    "loadContract": "Загрузить контракт",
+    "load": "Загрузить",
+    "close": "Закрыть",
+    "validation": "Заполните номер контракта и загрузите файл контракта",
+    "contract": "Контракт"
+  },
+  "uploaderDrop": {
+    "button": "Выберите его",
+    "hint": "Или",
+    "label": "Перетащите файл контракта сюда"
   }
 }

@@ -20,7 +20,7 @@ export const Container = () => {
       <Title
         size='s'
         variant='main'
-        className={spacing({ pt: 'l' })}
+        className={spacing({ pt: 'l', mb: 'l' })}
         renderRight={renderRight}
       >
         {title}

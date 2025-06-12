@@ -1,0 +1,16 @@
+.contractNum {
+  width: 400px;
+}
+
+.body {
+  min-height: 380px;
+}
+
+.uploader {
+  :global(.FileNext-ContentMain) {
+    width: 540px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

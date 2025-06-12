@@ -1,8 +1,13 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import { Providers } from './providers'
-import { MainPage } from '@/pages/main-page'
+import { ContractsPage } from '@/pages/contracts-page'
 import { Layout } from '@/widgets/layout'
+import dayjs from 'dayjs'
 import './i18n.js'
+
+import 'dayjs/locale/ru'
+
+dayjs.locale('ru')
 
 const router = createBrowserRouter([
   {
@@ -15,7 +20,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/foreign-contracts',
-            Component: MainPage,
+            Component: ContractsPage,
             handle: {
               tKey: 'layout.sider.menu.foreignContracts',
               withButton: false

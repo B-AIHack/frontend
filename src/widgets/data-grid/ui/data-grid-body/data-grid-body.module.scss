@@ -1,0 +1,19 @@
+.loaderContainer {
+  height: 200px;
+  position: relative;
+}
+
+.notFoundContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.head {
+  position: sticky;
+  top: 0;
+  background: var(--color-background-main);
+  z-index: 1;
+}

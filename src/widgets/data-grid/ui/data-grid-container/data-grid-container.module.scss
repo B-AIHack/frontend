@@ -1,0 +1,7 @@
+.body {
+  flex-grow: 1;
+  overflow: auto;
+  position: relative;
+  border-radius: var(--border-radius-l);
+  background: var(--color-background-main);
+}
