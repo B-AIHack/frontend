@@ -121,7 +121,7 @@ export const ContractsPage = () => {
           <IconButton
             size='l'
             variant='contained'
-            color='tertiary'
+            color='secondary'
             icon={CheckIcon}
             compressed
             onClick={submit}

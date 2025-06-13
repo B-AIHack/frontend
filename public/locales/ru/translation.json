@@ -43,12 +43,25 @@
     "title": "Анализ валютного договора"
   },
   "smthWentWrong": "Что-то пошло не так",
-  "compliance": "Сompliance",
+  "compliance": "Compliance",
   "control": "Валютный контроль",
   "executeButton": {
     "executeAnalysis": "Запустить анализ",
     "params": "Параметры запуска",
     "close": "Закрыть",
     "execute": "Запустить"
+  },
+  "detailPage": {
+    "problems": "Выявленные проблемы",
+    "result": "Результат анализа",
+    "subject": "Предмет договора",
+    "type": "Вид сделки",
+    "sum": "Сумма договора",
+    "currency": "Валюта",
+    "counterpartyName": "Название контрагента",
+    "counterpartyCountry": "Страна контрагента",
+    "resultOptions": {
+      "FAILED": "Отказано"
+    }
   }
 }

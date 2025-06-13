@@ -2,39 +2,23 @@ import { useParams } from 'react-router'
 import { useDetailQuery } from '@/entities/contracts'
 import { Stack } from '@ozen-ui/kit/Stack'
 import { Tag } from '@ozen-ui/kit/TagNext'
-import {
-  InfoCircleColoredIcon,
-  WarningTriangleColoredIcon
-} from '@ozen-ui/icons'
+import { ErrorCircleColoredIcon, InfoCircleColoredIcon } from '@ozen-ui/icons'
 import { Divider } from '@ozen-ui/kit/Divider'
 import { Typography } from '@ozen-ui/kit/Typography'
 import { spacing } from '@ozen-ui/kit/MixSpacing'
 import { Paper } from '@ozen-ui/kit/Paper'
-import React from 'react'
+import React, { useRef } from 'react'
 import stl from './detail-page.module.scss'
 import { ExecuteButton } from '@/widgets/contracts/execute-button/ui/execute-button.jsx'
 import { useTranslation } from 'react-i18next'
 import { SectionMessage } from '@ozen-ui/kit/SectionMessage'
-import { Button } from '@ozen-ui/kit/ButtonNext'
+import { BaseTabs } from '@/shared/ui/base-tabs.jsx'
+import { Badge } from '@ozen-ui/kit/Badge'
+import { Input } from '@ozen-ui/kit/Input'
+import { Card } from '@ozen-ui/kit/Card'
 
-const text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt nunc mauris, nec blandit velit pulvinar sollicitudin. Suspendisse venenatis, odio ut luctus varius, ipsum metus facilisis elit, eu efficitur ex neque at ligula. In mollis malesuada egestas. Cras laoreet magna lobortis nulla accumsan, sed aliquam risus cursus. Etiam molestie finibus ligula sed blandit. Suspendisse pharetra interdum accumsan. Morbi posuere mauris et pretium consectetur. Nam aliquet turpis a ante elementum, a faucibus tortor dapibus. Cras in erat diam. Nam eget accumsan est, sed congue quam. Sed laoreet facilisis erat nec lobortis. Nulla sit amet lacinia dui, eu feugiat arcu.
-
-Cras non tortor vel purus auctor iaculis. Donec vitae nulla ante. Praesent sed bibendum purus, nec viverra nisl. In luctus libero ac tortor pulvinar condimentum. Maecenas vel luctus dolor. Suspendisse dapibus bibendum felis, commodo vestibulum sem vestibulum quis. Duis hendrerit, velit sit amet fermentum aliquet, odio metus eleifend arcu, vel rhoncus sapien enim id orci. Sed nec efficitur risus, vitae venenatis mi. Maecenas fermentum, purus et pharetra euismod, tortor lacus gravida dui, sit amet maximus ante libero condimentum orci.
-Quisque scelerisque urna at faucibus iaculis. Aenean mollis consectetur nibh nec lacinia. Nam ac dolor semper, convallis dolor eu, commodo ante. Cras ut odio non massa maximus fermentum vel non nisl. Cras aliquam nulla augue, sed congue nulla vulputate id. Duis tincidunt arcu ut lorem tincidunt interdum. Phasellus nec orci diam. Nullam egestas lectus in eros mollis, sed volutpat nisi euismod.
-
-Fusce ut purus ornare, tincidunt tellus at, pretium turpis. Suspendisse vitae volutpat mauris, vel varius augue. Suspendisse imperdiet tortor quis commodo sollicitudin. Praesent vehicula commodo mauris, quis vehicula est laoreet eget. Integer ultricies scelerisque euismod. Curabitur vitae velit placerat, viverra dui nec, volutpat lacus. Maecenas luctus, odio at consectetur commodo, dolor augue dapibus metus, pellentesque consectetur nulla turpis non libero. Cras non eros vel nisi dictum laoreet a vel turpis. Integer sit amet mauris sed felis commodo venenatis. Nunc nec consequat diam, sit amet feugiat augue. Quisque vel nisi risus. Quisque sapien metus, pulvinar in quam vitae, varius tempus lectus. Mauris suscipit eu sem in gravida. Nunc tempus diam ut ipsum vehicula ultricies. Morbi justo leo, cursus quis mi vitae, elementum pharetra arcu. Maecenas placerat ante ornare ipsum ullamcorper imperdiet ac ut nisl.
-
-Mauris vestibulum venenatis justo eget lobortis. Pellentesque mattis dolor eu ligula dapibus dapibus. Nulla lacinia dignissim velit, at consequat diam condimentum ut. Suspendisse nulla odio, vulputate et massa eu, iaculis interdum odio. Vivamus ac facilisis felis, ut sagittis libero. Donec lectus sapien, fringilla vitae eros nec, consequat tempus quam. Maecenas eget placerat nulla, sed porta felis. Pellentesque sapien est, tristique quis finibus convallis, porta id mauris. Suspendisse vel dui a est finibus interdum vitae lobortis lectus. Donec placerat ac elit sit amet fermentum. Sed sem risus, ultricies ut turpis at, iaculis consequat neque. Mauris mi erat, aliquam at rhoncus sed, mattis hendrerit ligula. Aenean tortor magna, mollis quis vestibulum quis, blandit sed erat. Donec commodo urna suscipit, placerat ipsum in, posuere orci.
-
-Nam cursus erat dignissim ante ullamcorper, in malesuada erat dictum. Nunc rhoncus condimentum nibh et finibus. Phasellus facilisis cursus leo in mattis. Nullam eget velit est. Curabitur accumsan lorem aliquam risus consectetur imperdiet. Nam sit amet laoreet tortor. Praesent elementum quis sapien at facilisis. Aliquam malesuada volutpat ultrices. Vestibulum pellentesque consequat mauris eget suscipit. Maecenas consequat ultricies risus eget suscipit. Donec eu neque eu diam varius suscipit. Maecenas imperdiet commodo lorem vel pellentesque. Nunc iaculis eros magna, vitae gravida nulla fermentum quis. Quisque eu nisl interdum neque aliquam pretium vitae et arcu. Suspendisse potenti. Pellentesque lorem ligula, dictum ac dui vel, malesuada gravida lorem.
-
-Duis maximus erat vitae mauris rutrum interdum. Pellentesque vel risus semper, dictum dolor non, elementum enim. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi dictum enim quis elit gravida faucibus. Vestibulum vitae erat eu dui iaculis aliquet non id risus. Pellentesque fermentum venenatis semper. Curabitur a dignissim tellus. Maecenas ultrices ante et risus suscipit, ut consequat justo finibus. Donec nec semper dolor.
-
-Pellentesque sit amet orci sed risus malesuada pulvinar quis vitae neque. Integer sit amet turpis ac nisi facilisis blandit eget ut mauris. Vestibulum at tortor lectus. Etiam ac libero hendrerit, lobortis leo nec, euismod lacus. Etiam ipsum tellus, tristique ac bibendum in, aliquam ac eros. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin pellentesque, nisi quis rhoncus tempus, quam ante scelerisque quam, at consectetur nunc odio et leo.
-
-Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In ante leo, rutrum sit amet lorem eu, egestas commodo risus. Suspendisse nec volutpat orci. Nunc convallis ipsum turpis, ac venenatis mauris pulvinar eget. Suspendisse molestie eget elit in malesuada. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla sed tortor justo. Nullam at lorem mauris. Nullam venenatis tempor enim, eu blandit metus porttitor quis.
-
-Mauris ultrices egestas odio, et interdum augue egestas nec. Cras ultricies mauris ac dictum cursus. Ut blandit nisi non nulla vestibulum, non condimentum erat tempor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec rutrum euismod erat, at commodo eros porttitor vel. Donec dolor ligula, imperdiet laoreet vehicula a, pellentesque id quam. Duis imperdiet risus quis eros mattis elementum.`
+const text = `Стр. 1\n\nДОГОВОР ПОСТАВКИ № ИЭ 22052025\nг. Волгоград «22» мая 2025г.\n\nООО «МС ЭЛЕКТРИК», именуемое в дальнейшем «Поставщик», в лице директора Сафонова Алексея Петровича действующего на основании Устава, с одной стороны, и именуемое в\nдальнейшем «Покупатель», в лице директор действующей на основании Устава, с другой\nстороны, далее именуемые Стороны, заключили настоящий договор о нижеследующем:\n\n1. Предмет договора\n\n1.1. Поставщик обязуется поставить Покупателю, а Покупатель принять и оплатить товар, в порядке и на\nусловиях, предусмотренных настоящим Договором и спецификациями к нему, являющихся его неотъемлемой\nчастью.\n\n1.2. Поставщик гарантирует, что поставляемый им в рамках настоящего Договора товар принадлежит ему\nна законных основаниях, находится в законном обороте, не состоит в залоге и под арестом, а также свободен от\nтребований и претензий третьих лиц. Поставляемый товар должен быть новым, не бывшим в употреблении, если\nиное не указано в спецификации.\n\n2. Порядок и условия поставки\n\n2.1. Место поставки и условия поставки (срок) в соответствии с толкованием терминов справочником\n«ИНКОТЕРМС-2010», согласовываются сторонами и указываются в Спецификациях.\n2.2. Приемка Товара производится Покупателем или его представителем на основании доверенности.\n\n2.3. Право собственности на товар, а также риск повреждения и утраты товара переходят от\nПоставщика к Покупателю с даты (момента) поставки товара.\n\n2.4. Датой (моментом) поставки и датой (моментом) перехода права собственности товара считается дата\nприема товара уполномоченным лицом в приемосдаточном документе.\n\n2.5. Тара и упаковка должны соответствовать требованиям и условиям на поставку товара и быть\nдостаточными для обеспечения сохранности товара во время транспортировки и хранения,\n\n3. Права и Обязанности сторон.\n\n3.1. Поставщик обязан:\n\n3.1.1. Произвести поставку товара в соответствии с настоящим Договором и спецификациями,\nявляющимися неотъемлемой частью настоящего договора.\n\n3.1.2. Обеспечить надлежащую и надежную упаковку и маркировку, поставляемого товара в соответствии\nс условиями договора, с целью обеспечения сохранности при перевозке и хранении.\n\n3.1.3. В соответствии с п.3. ст.168 НК РФ в случае осуществления отгрузки товара позднее 5 календарных\nдней Поставщик после поступления от Покупателя оплаты (частичной оплаты) в счет предстоящих поставок\nобязуется в течение 3 (трех) календарных дней с даты оплаты направить в адрес Покупателя по факсу (или\nэлектронной почте) копию счета-фактуры. Оригинал, оформленный в соответствии с требованиями\nзаконодательства, направляется по почте в течение 5 (пяти) календарных дней с даты оплаты.\n\n3.1.4. Одновременно с Товаром, прошедшим таможенную очистку для экспорта, Поставщик обязан\nпоставить и передать Покупателю следующие документы:\n\n- счет-фактура (1 оригинал + 1 копия для возврата);\n\n- товарно-транспортная накладная (1 оригинал + | копия для возврата);\n\n- международная накладная СМЁВ (1 оригинал + | копия для возврата);\n\n- сертификат происхождения товара СТ-1 (1 оригинал) или декларация о происхождении;\n\n- сертификат соответствия, в случае если товар подлежит обязательной сертификации;\n\n- паспорт и/или руководство по эксплуатации. 2\n\n3.2. Покупатель обязан: р\n\n3.2.1. Оплатить товар в размере, в порядке и в сроки, предусмотренные Спецификацией, в том числе\nтранспортные (и иные расходы), подтвержденные документально по факту оказанных услуг. ;\n\n3.2.2. Предпринять все надлежащие меры, обеспечивающие принятие товара, поставленного\nПоставщиком в соответствии с условиями настоящего Договора.\n\n‚ 3.2.3. Предоставить Поставщику в течение 90 (девяносто) календарных дней с момента поставки Товара\nследующие документы:\n- надлежащим образом оформленные (подпись, печать) оригиналы товароспроводительных документов\n(товарная накладная, товаротранспортная накладная, международная накладная СМК );\n$\n\nВИЗА ПОСТАВЩИКА ВИЗА ПОКУПАТЕЛЯ\n\x0cСтр. 2\n\n- оригинал заявления о ввозе товаров и уплате косвенных налогов в2 (двух) экземплярах с отметкой налогового\nоргана о принятии, ИЛИ заявление о ввозе товаров и уплате косвенных налогов и уведомление об уплате\nкосвенных налогов при ввозе Товаров на территорию Республики Казахстан в ЭЛЕКТРОННОМ ВИДЕ.\n(Приложение № | к Протоколу об обмене информацией в электронном виде между налоговыми органами\nгосударств — членов таможенного союза об уплаченных суммах косвенных налогов).\n\n4. Качество, комплектность.\n\n4.1. Качество и комплектность поставляемого товара должно соответствовать условиям договора, а также\nтребованиям, указанным в согласованной сторонами Спецификации к настоящему договору. Качество товара\nдолжно удостоверяется паспортом (сертификатом) качества, а также иными документами, предусмотренными\nдействующим законодательством, подтверждающими качество товара.\n\n4.2. Приемка товара по количеству и качеству осуществляется. в порядке и сроки, установленные\nИнструкциями Госарбитража при СМ СССР. «О приемке товара по качеству» № П-7 от 25.04.66 г.; «О приемке\nтовара по количеству» № П-6 от 15.06.65 г, в последних редакциях. О выявленных несоответствиях или\nнедопоставках товара стороны извещают друг друга, в том числе по факсимильной связи, с направлением\nоригинала по почте.\n\n- приемка товара по количеству осуществляется в момент приемки товара на складе Покупателя;\n\n- приемка по качеству товара осуществляется не позднее 20 календарных дней после выдачи товара\nтранспортной компанией или после поступления товара на склад Покупателя при доставке продукции\nПоставщиком.\n\n4.3. В случае обращения с претензиями по качеству, комплектности, недостачи, пересорта, повреждения\nтовара после указанных сроков в п.4.2. такие претензии приниматься не будут.\n\n4.4. Акт о скрытых недостатках должен быть составлен Покупателем в течение 5 дней с момента\nобнаружения недостатков, однако не позднее четырех месяцев со дня поступления товара на склад Покупателя,\nобнаружившего скрытые недостатки.\n\nСкрытыми недостатками признаются такие недостатки, которые не могли быть обнаружены при обычной\nдля данного вида товара проверке и выявлены лишь в процессе обработки, подготовки к монтажу, в процессе\nмонтажа, испытания и использования.\n\n5. Цена товара и порядок расчетов.\n\n5.1. Стоимость Продукции формируется, исходя из текущего уровня цен Поставщика и согласовывается\nспецификацией, являющейся неотъемлемой частью договора.\n\n5.2. Суммы указанные в Спецификации включают в себя все расходы по поставке Поставщиком товара,\nвключая платежи и сборы, взимаемые представителями государственных органов Российской Федерации.\n\n5.3. Порядок оплаты транспортных и иных расходов согласовываются сторонами в Спецификации. В\nслучае, если транспортные и иные расходы в стоимость товара не включены Покупатель оплачивает их отдельно\nна основании подтверждающих документов по факту оказанных услуг.\n\n5.4. Покупатель производит оплату за поставляемый товар в сроки и на условиях, указанными в\nСпецификации.\n\n5.5. Валютой для расчетов по настоящему Договору является российский рубль.\n\n5.6. При’ перечислении денежных средств моментом оплаты считается дата поступления денежных\nсредств на расчетный счет Поставщика. ;\n\n6. Ответственность сторон.\n\n6.1. В случаях неисполнения или ненадлежащего исполнения сторонами обязательств, принятых на себя\nпо настоящему Договору и Спецификации к нему стороны несут ответственность в соответствии с настоящим\nдоговором.\n\n6.2. Сторона Договора, имущественные интересы которой нарушены в результате неисполнения или\nненадлежащего исполнения обязательств по Договору другой Стороной, вправе требовать полного возмещения\nпричиненных ей этой Стороной убытков.\n\n6.3.За неисполнение или ненадлежащее исполнение условий настоящего Договора Стороны его несут\nследующую взаимную материальную ответственность (штраф, пеня, неустойка), причем санкции применяются\nбез взаимных зачетов и уплачиваются только после предъявления письменных требований об уплате.\n\n6.3.1. В случае несвоевременной поставки продукции Поставщик уплачивает неустойку в размере 0,1 %\nот стоимости не поставленной продукции за каждый рабочий день просрочки, но не более 5% от стоимости\nпродукции.\nстоимости не оплаченной продукции за каждый рабочий день просрочки, но не более 5% от стоимости\n\nпродукции. $\n\nВИЗА ПОСТАВЩИКА ВИЗА ПОКУПАТЕЛЯ\n\x0cСтр. 3\n\n6.4. Уплата неустойки и штрафных санкций не освобождает Стороны от исполнения обязательств по\nнастоящему Договору.\n\n6.5. Право Стороны на взыскание неустойки является способом защиты гражданских прав и может быть\nреализовано Стороной в зависимости от ее воли.\n\n6.6. За не предоставление оригинала документов, предусмотренных п. 3.2.3. Договора или нарушение\nсрока его предоставления, Покупатель уплачивает штраф в размере 20% от суммы Договора, неустойку в\nразмере 20% от суммы заказа, а так же штрафы, пени, которые будут наложены на Поставщика\nКонтролирующими органами Российской Федерации.\n\n6.7. В случае нарушения сроков оплаты со стороны Покупателя, Поставщик имеет право обратиться с\nтребованием о возмещении убытков по оплате штрафов, которые были начислены Поставщику со стороны\nорганов валютного контроля за несвоевременное поступление валютной выручки. При этом, Покупатель не\nимеет права отказываться от возмещения вышеуказанных убытков по оплате штрафов, т.к. данные\nобстоятельства произошли по вине Покупателя.\n\n7. Форс-мажорные обстоятельства.\n\n7.1. Любая из Сторон освобождается от ответственности за частичное или полное неисполнение\nобязательств по настоящему Договору, если такое неисполнение произошло в результате наступления форс-\nмажорных обстоятельств. Таковыми считаются внешнеэкономические, валютные, таможенные, налоговые и\nиные изменения и ограничения правительства; запрещение импорта или экспорта; любой законодательный акт,\nпостановление или иная письменная директива, исходящие от любого правительственного органа,\nпрепятствующие исполнению настоящего Договора, имеющего юридическую силу над деятельностью Сторон\nнастоящего Договора, причем они могут быть доведены до сведения сторон как в форме законодательного акта,\nтак и иными способами. Под форс-мажорными понимаются также любые беспорядки, война или военные\nдействия, землетрясения, наводнения, пожары, эпидемии и иные явления природы катастрофического характера.\n\n7.2. Сторона, для которой сложилась невозможность исполнения своих обязанностей вследствие форс-\nмажорных обстоятельств, должна в течение 3 рабочих дней с момента, когда она узнала или должна была узнать\nо наступлении таких обстоятельств, направить письменное уведомление другой Стороне с указанием характера\nсобытия и предположительного срока его действия.\n\n7.3. Наступление форс-мажорных обстоятельств должно быть подтверждено торгово-промышленной\nпалатой Российской Федерации или другим официальным компетентным органом.\n\n8. Разрешение споров.\n\n8.1. Все споры, разногласия или требования, возникающие из настоящего договора (соглашения) или в\nсвязи с ним, в том числе касающиеся его исполнения, нарушения, прекращения или недействительности,\nСтороны будут стремиться разрешать дружеским путем в порядке досудебного разбирательства: путем\nпереговоров, обмена письмами, обмена телеграммами, факсами и’ др.\n\n8.2. В случае, если Стороны не придут к соглашению, то спор будет рассматриваться в суде по месту\nнахождения истца, До обращения в суд между Сторонами применяется претензионный порядок урегулирования\nспоров. Срок рассмотрения претензий — 10 дней со дня предъявления претензий.\n\n8.3. Стороны обязуются исполнить судебное решение в срок, установленный в самом решении.\n\n8.4. Стороны признают, что подписанный акт сверки взаиморасчетов подтверждает наличие дебиторской\n(кредиторской) задолженности у той или иной стороны и не требует дальнейшего подтверждения при\nразрешении спора в суде.\n\n9. Конфиденциальность сведений\n\n9.1. Любая информация о финансовой, хозяйственной или иной деятельности одной из Сторон,\nпредоставленная ею другой Стороне или ставшая известной той в связи с подготовкой или исполнением\nнастоящего Договора, считается конфиденциальной («конфиденциальная информация») и не подлежит\nразглашению или передаче третьим лицам.\n\n9.2. Стороны выражают понимание того, что содержание настоящего Договора является\nконфиденциальной ‘информацией и не подлежит разглашению или передаче любой из Сторон настоящего\nДоговора третьим лицам. При неисполнении или ненадлежащем исполнении любой из Сторон своих\nобязанностей по неразглашению конфиденциальной информации, виновная Сторона обязана возместить другой\nСтороне ее полные убытки, вызванные разглашением или передачей конфиденциальной информации, если в\nсудебном порядке будет доказано, что именно данные действия виновной Стороны повлекли такие убытки.\n\n‚ 9.3. Ограничения на раскрытие конфиденциальной информации не будут применяться в том случае, если\nтакое раскрытие необходимо во исполнение требований законодательства РФ.\n\nВИЗА ПОСТАВЩИКА ВИЗА ПОКУПАТЕЛЯ\n\x0cСтр. 4\n\n9.4. Положения настоящего раздела будут оставаться в силе в течение 3 (трех) лет после прекращения\nнастоящего Договора, по любому из оснований, предусмотренному Договором или действующим\nзаконодательством РФ.\n\n10. Срок действия Договора.\n\n10.1. Настоящий Договор вступает в силу с момента подписания обеими Сторонами и действует до 31\nдекабря 2025 года. Если ни одна из Сторон не заявила о расторжении договора, то он считается автоматически\nпролонгированным на следующий календарный год.\n\n10.2. Настоящий Договор может быть расторгнут:\n\n»  повзаимному согласию сторон;\n*  водностороннем порядке в случаях, установленных действующим законодательством.\n\n11. Дополнительные условия\n\n11.1. Все изменения и дополнения к настоящему Договору действительны в том случае, если они\nоформлены в письменном виде, подписаны полномочными представителями обеих Сторон и скреплены\nпечатями.\n\n11.2. Стороны пришли к соглашению о том, что во исполнение положений настоящего Договора оплата,\nнаправление документов и прочее будет производиться по соответствующим реквизитам, указанным в разделе\n12 настоящего договора. В случае изменения платежных и/или отгрузочных реквизитов, а так же юридического\nи/или почтового адреса, номеров телефонов, факсов, электронной почты, Сторона, у которой произошли\nизменения, обязана немедленно письменно известить об этом другую Сторону. Все убытки, связанные с\nнеправильным указанием платежных и иных реквизитов, указанных в Разделе 12 несет виновная Сторона.\n\n11.3. По всем вопросам, связанным с поставкой и оплатой товара и не урегулированным настоящим\nДоговором, Стороны договорились руководствоваться действующим гражданским законодательством РФ.\n\n11.4. Ни одна из Сторон не вправе передавать свои права и обязанности по настоящему Договору т ретьей\nстороне без согласия другой Стороны, оформленного в письменной форме.\n\n11.5. Настоящий Договор составлен на русском языке, в 2-х экземплярах, каждый из которых имеет\nодинаковую юридическую силу. Один экземпляр Договора находится у Поставщика, второй экземпляр Договора\nнаходится у Покупателя.\n\n11.6. Все документы к настоящему Договору, как и сам Договор, могут быть оформлены по факсу и\nимеют юридическую силу до обмена оригиналами. Стороны предпринимают все меры, чтобы факсимильные\nэкземпляры документов были читаемы, разбираемы и со временем сохраняли содержание переданного по факсу\nтекста.\n\n12. Юридические адреса и иные реквизиты Сторон.\n\nПОСТАВЩИК ПОКУПАТЕЛЬ\n\n000 «МСЭЛЕКТРИК» EEE\nЮридический адрес: 143900, Московская обл., ридический адрес: Республика Казахстан,\n\nг.Балашиха, пр.Ленина, д.10, пом.65 010000 г. Астана,\nПочтовый адрес: 400117, область Волгоградская,\nгород Волгоград, улица им Землячки, дом З1А,\nИНН/КПП 5001118300/500101001 Расчетный счет: Е\nОГРН 1185053002287\n\nр/с 40702810326000032529\n\nк/с 30101810900000000556\n\nЮжный филиал АО «Райффайзенбанк»\n\n      \n    \n   \n   \n\nАЛ Сафонов\n\nВИЗА ПОСТАВЩИКА ВИЗА ПОКУПАТЕЛЯ\n\x0c`
+const substr = 'Сафонова Алексея Петровича'
 
 const isNew = false
 
@@ -43,15 +27,57 @@ export const DetailPage = () => {
   const params = useParams()
   const { data: detail } = useDetailQuery(params?.id)
 
-  console.log('data', detail)
+  const ref = useRef()
 
-  const renderWithLineBreaks = (text) => {
-    return text.split('\n').map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        {index < text.split('\n').length - 1 && <br />}
-      </React.Fragment>
-    ))
+  const renderWithLineBreaks = (text, substr) => {
+    return text.split('\n').map((line, index) => {
+      let targetLine = line
+
+      if (substr) {
+        const start = line.indexOf(substr)
+
+        if (start > -1) {
+          const before = line.slice(0, start)
+          const inside = line.slice(start, start + substr.length)
+          const after = line.slice(start + substr.length)
+
+          targetLine = (
+            <>
+              {before}
+              <span ref={ref} className={stl.issueLine}>
+                {inside}
+              </span>
+              {after}
+            </>
+          )
+        }
+      }
+
+      return (
+        <React.Fragment key={index}>
+          {targetLine}
+          {index < text.split('\n').length - 1 && <br />}
+        </React.Fragment>
+      )
+    })
+  }
+
+  // const renderWithSpanWrapper = (text, subline) => {
+  //   console.log('@@', text)
+  //
+  //   const start = text.indexOf(subline)
+  //
+  //   console.log('@@', { start })
+  //
+  //   const before = text.slice(0, start)
+  //   const inside = text.slice(start, start + subline.length)
+  //   const after = text.slice(start + subline.length)
+  //
+  //   return `${before}<span>${inside}</span>${after}`
+  // }
+
+  const handleIssueClick = () => {
+    ref?.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -67,11 +93,11 @@ export const DetailPage = () => {
               isNew ? (
                 <InfoCircleColoredIcon size='s' />
               ) : (
-                <WarningTriangleColoredIcon size='s' />
+                <ErrorCircleColoredIcon size='s' />
               )
             }
             variant='secondary'
-            color={isNew ? 'info' : 'warning'}
+            color={isNew ? 'info' : 'error'}
             label={isNew ? 'Новый' : 'Анализ завершен'}
           />
           <Typography variant='text-m_1'>
@@ -81,70 +107,157 @@ export const DetailPage = () => {
         <ExecuteButton disabled={!isNew} />
       </Stack>
 
-      <Paper className={stl.container}>
-        <Stack className={stl.paperContainer} fullWidth gap='l'>
-          <Paper radius='l' background='main' className={stl.contractText}>
-            {renderWithLineBreaks(text)}
+      <>
+        {isNew && (
+          <Paper className={stl.container}>
+            <Paper radius='l' background='main' className={stl.contractText}>
+              {renderWithLineBreaks(text)}
+            </Paper>
           </Paper>
-          {!isNew && (
-            <Stack direction='column' className={stl.issues} gap='l'>
-              <SectionMessage
-                className={stl.issuesHeader}
-                status='error'
-                title={
-                  <b>
-                    Выявлено <span className={stl.highlight}>5</span> проблем
-                  </b>
-                }
-              >
-                <>
-                  Complience: <b className={stl.highlight}>3</b>
-                  <br />
-                  Валютный контроль: <b className={stl.highlight}>2</b>
-                </>
-              </SectionMessage>
-              <Paper className={stl.issuesBody} radius='l' background='main'>
-                <Stack
-                  fullWidth
-                  direction='column'
-                  divider={<Divider orientation='horizontal' flexItem />}
-                >
-                  {new Array(5).fill(null).map(() => (
-                    <Stack
-                      className={stl.issueItem}
-                      fullWidth
-                      direction='column'
-                      align='start'
-                      justify='start'
-                    >
-                      <Tag
-                        variant='secondary'
-                        color='error'
-                        label='Complience'
-                        size='xs'
-                        className={spacing({ mb: 's' })}
+        )}
+        {!isNew && (
+          <BaseTabs
+            config={[
+              {
+                label: t('detailPage.result'),
+                content: (
+                  <Stack
+                    className={stl.resultContainer}
+                    fullWidth
+                    wrap
+                    direction='column'
+                    gap='m'
+                    align='start'
+                  >
+                    <SectionMessage status='error'>
+                      {t('detailPage.result') + ' - '}
+                      <b>{t('detailPage.resultOptions.FAILED')}</b>
+                    </SectionMessage>
+                    <Card borderWidth='none' as={Stack} wrap gap='l'>
+                      <Input
+                        className={stl.resultField}
+                        disabled
+                        label={t('detailPage.subject')}
+                        value={'Работы/услуги'}
                       />
-                      <Typography variant='text-m_1'>
-                        <b>Контрагент находиться в санкционном списке</b>
-                      </Typography>
-                      <Typography
-                        className={spacing({ mb: 's' })}
-                        variant='text-s'
-                        color='tertiary'
+                      <Input
+                        className={stl.resultField}
+                        disabled
+                        label={t('detailPage.type')}
+                        value={'Импорт'}
+                      />
+                      <Divider orientation='horizontal' flexItem />
+                      <Input
+                        className={stl.resultField}
+                        disabled
+                        label={t('detailPage.sum')}
+                        value={'100 000 $'}
+                      />
+                      <Input
+                        className={stl.resultField}
+                        disabled
+                        label={t('detailPage.currency')}
+                        value={'Доллары'}
+                      />
+                      <Divider orientation='horizontal' flexItem />
+                      <Input
+                        className={stl.resultField}
+                        disabled
+                        label={t('detailPage.counterpartyName')}
+                        value={'ООО «МС ЭЛЕКТРИК»'}
+                      />
+                      <Input
+                        className={stl.resultField}
+                        disabled
+                        label={t('detailPage.counterpartyCountry')}
+                        value={'RU-Российская федерация'}
+                      />
+                    </Card>
+                  </Stack>
+                )
+              },
+              {
+                label: t('detailPage.problems'),
+                iconRight: () => (
+                  <Badge max={100} content={1} color='errorDark' />
+                ),
+                content: (
+                  <Stack className={stl.problemsContainer} fullWidth gap='l'>
+                    <Paper
+                      radius='l'
+                      background='main'
+                      className={stl.contractText}
+                    >
+                      {renderWithLineBreaks(text, substr)}
+                    </Paper>
+                    <Stack direction='column' className={stl.issues} gap='l'>
+                      <SectionMessage
+                        className={stl.issuesHeader}
+                        status='error'
+                        title={
+                          <b>
+                            Выявлена <span className={stl.highlight}>1</span>{' '}
+                            проблема
+                          </b>
+                        }
                       >
-                        Пояснение
-                      </Typography>
-                      <Button size='l' variant='function'>
-                        Ссылка
-                      </Button>
+                        <>
+                          {t('compliance')}: <b className={stl.highlight}>1</b>
+                        </>
+                      </SectionMessage>
+                      <Paper
+                        className={stl.issuesBody}
+                        radius='l'
+                        background='main'
+                      >
+                        <Stack
+                          fullWidth
+                          direction='column'
+                          divider={
+                            <Divider orientation='horizontal' flexItem />
+                          }
+                        >
+                          {new Array(1).fill(null).map(() => (
+                            <Stack
+                              className={stl.issueItem}
+                              fullWidth
+                              direction='column'
+                              align='start'
+                              justify='start'
+                              onClick={handleIssueClick}
+                            >
+                              <Tag
+                                variant='primary'
+                                color='error'
+                                label='Complience'
+                                size='xs'
+                                className={spacing({ mb: 's' })}
+                              />
+                              <Typography
+                                variant='text-m_1'
+                                className={spacing({ mb: 's' })}
+                              >
+                                <b>
+                                  Контрагент находиться в санкционном списке
+                                </b>
+                              </Typography>
+                              <SectionMessage status='error'>
+                                Учредитель ООО «МС ЭЛЕКТРИК»{' '}
+                                <b>Сафонов Алексей Петрович</b> находится в
+                                санкционном списке EU
+                              </SectionMessage>
+                            </Stack>
+                          ))}
+                        </Stack>
+                      </Paper>
                     </Stack>
-                  ))}
-                </Stack>
-              </Paper>
-            </Stack>
-          )}
-        </Stack>
-      </Paper>
+                  </Stack>
+                )
+              }
+            ]}
+          />
+        )}
+      </>
     </div>
   )
 }
