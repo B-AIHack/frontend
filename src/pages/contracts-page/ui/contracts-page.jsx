@@ -8,9 +8,20 @@ import { Typography } from '@ozen-ui/kit/Typography'
 import { LoadContract } from '@/widgets/contracts/load-contract'
 import { spacing } from '@ozen-ui/kit/MixSpacing'
 import { IconButton } from '@ozen-ui/kit/IconButtonNext'
-import { MenuVerticalIcon } from '@ozen-ui/icons'
+import { CheckIcon, CrossIcon, MenuVerticalIcon } from '@ozen-ui/icons'
 import { useContractsQuery } from '@/entities/contracts'
 import stl from './contracts-page.module.scss'
+import { Input } from '@ozen-ui/kit/Input'
+import { DatePicker } from '@ozen-ui/kit/DatePicker'
+import { Divider } from '@ozen-ui/kit/Divider'
+import { BaseSelect } from '@/shared/ui/base-select'
+import { Tooltip } from '@ozen-ui/kit/Tooltip'
+import dayjs from 'dayjs'
+
+const initialFilter = {
+  dateFrom: dayjs().format('YYYY-MM-DD'),
+  dateTo: dayjs().format('YYYY-MM-DD')
+}
 
 export const ContractsPage = () => {
   const { t } = useTranslation()
@@ -26,9 +37,103 @@ export const ContractsPage = () => {
     setPage(nextPage)
   }
 
-  const header = null
+  const [contractNumber, setContractNumber] = useState('')
+  const [status, setStatus] = useState('')
+  const [date, setDate] = useState([new Date(), new Date()])
+  const [filter, setFilter] = useState(initialFilter)
 
-  const { data: contracts, isFetching } = useContractsQuery({ page, size })
+  const reset = () => {
+    setContractNumber('')
+    setStatus('')
+    setDate([new Date(), new Date()])
+
+    setFilter({ ...initialFilter })
+  }
+
+  const submit = () => {
+    const nextFilter = {}
+    if (contractNumber) {
+      nextFilter.contractNumber = contractNumber
+    }
+    if (status) {
+      nextFilter.status = status
+    }
+    if (dayjs(date.at(0)).isValid()) {
+      nextFilter.dateFrom = dayjs(date.at(0)).format('YYYY-MM-DD')
+    }
+    if (dayjs(date.at(1)).isValid()) {
+      nextFilter.dateTo = dayjs(date.at(1)).format('YYYY-MM-DD')
+    }
+
+    setFilter(nextFilter)
+  }
+
+  const header = (
+    <Stack
+      fullWidth
+      gap='m'
+      divider={<Divider orientation='vertical' flexItem />}
+      justify='spaceBetween'
+    >
+      <Input
+        className={stl.flex1}
+        size='s'
+        label={t('contractsPage.number')}
+        value={contractNumber}
+        onChange={(e) => setContractNumber(e.target.value)}
+      />
+      <DatePicker
+        className={stl.flex2}
+        value={date}
+        onChange={(value) => setDate(value)}
+        size='s'
+        mode='date-range'
+        label={[t('contractsPage.dateFrom'), t('contractsPage.dateTo')]}
+      />
+      <BaseSelect
+        className={stl.flex1}
+        label={t('contractsPage.status')}
+        size='s'
+        options={[
+          { label: '', value: '' },
+          ...['NEW', 'PROCESSING', 'FINISHED'].map((item) => ({
+            label: t(`contractsPage.statusOptions.${item}`),
+            value: item
+          }))
+        ]}
+        value={status}
+        onChange={(value) => setStatus(value)}
+      />
+      <Stack gap='m'>
+        <Tooltip label={t('contractsPage.reset')} placement='top'>
+          <IconButton
+            size='l'
+            variant='ghost'
+            icon={CrossIcon}
+            compressed
+            onClick={reset}
+          />
+        </Tooltip>
+
+        <Tooltip label={t('contractsPage.submit')} placement='top'>
+          <IconButton
+            size='l'
+            variant='contained'
+            color='tertiary'
+            icon={CheckIcon}
+            compressed
+            onClick={submit}
+          />
+        </Tooltip>
+      </Stack>
+    </Stack>
+  )
+
+  const { data: contracts, isFetching } = useContractsQuery({
+    page,
+    size,
+    ...filter
+  })
 
   return (
     <div>
@@ -37,7 +142,7 @@ export const ContractsPage = () => {
       </Stack>
 
       <DataGrid
-        calculateHeightValue='240'
+        calculateHeightValue='180'
         header={header}
         columns={[
           {

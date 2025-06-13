@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { request } from '@/shared/api'
+import { queryClient, request } from '@/shared/api'
 
 export const useUploadMutation = () =>
   useMutation({
@@ -8,7 +8,10 @@ export const useUploadMutation = () =>
 
 export const useCreateContractMutation = () =>
   useMutation({
-    mutationFn: (data) => request.post('/application', data)
+    mutationFn: (data) => request.post('/application', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['contracts'] })
+    }
   })
 
 export const useContractsQuery = (filter) =>

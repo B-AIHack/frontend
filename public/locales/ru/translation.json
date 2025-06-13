@@ -30,7 +30,11 @@
       "NEW": "Новый",
       "PROCESSING": "Обрабатывается",
       "FINISHED": "Анализ закончен"
-    }
+    },
+    "dateFrom": "Дата с",
+    "dateTo": "Дата по",
+    "reset": "Сбросить",
+    "submit": "Применить"
   },
   "uploaderDrop": {
     "button": "Выберите его",

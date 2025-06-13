@@ -59,6 +59,11 @@ export const useUploader = () => {
     setFiles((previousFiles) =>
       previousFiles.filter((file) => getFileId(file) !== id)
     )
+    setLoadedFiles((previousFiles) => {
+      const { [id]: _, ...rest } = previousFiles
+
+      return rest
+    })
   }
 
   const onChange = ({ acceptedFiles, files }) => {
