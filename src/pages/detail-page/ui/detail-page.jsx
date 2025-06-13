@@ -100,7 +100,7 @@ export const DetailPage = () => {
             color={isNew ? 'info' : 'error'}
             label={isNew ? 'Новый' : 'Анализ завершен'}
           />
-          <Typography variant='text-m_1'>
+          <Typography variant='text-m_1' className={stl.filename}>
             {detail?.data?.uploadedFiles?.at(0)?.filename}
           </Typography>
         </Stack>

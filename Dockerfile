@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM --platform=linux/amd64 node:18-alpine AS builder
 
 # Install pnpm globally
 RUN npm install -g pnpm
@@ -11,7 +11,7 @@ RUN pnpm install
 COPY . .
 RUN pnpm run build
 
-FROM nginx:alpine
+FROM --platform=linux/amd64 nginx:alpine
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY --from=builder /app/config/nginx.conf /etc/nginx/nginx.conf

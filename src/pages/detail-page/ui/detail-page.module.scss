@@ -58,3 +58,10 @@
   color: var(--color-content-error);
   text-decoration: underline;
 }
+
+.filename {
+  width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
