@@ -179,7 +179,7 @@ export const DetailPage = () => {
               {
                 label: t('detailPage.problems'),
                 iconRight: () => (
-                  <Badge max={100} content={1} color='errorDark' />
+                  <Badge max={100} content={2} color='errorDark' />
                 ),
                 content: (
                   <Stack className={stl.problemsContainer} fullWidth gap='l'>
@@ -196,13 +196,15 @@ export const DetailPage = () => {
                         status='error'
                         title={
                           <b>
-                            Выявлена <span className={stl.highlight}>1</span>{' '}
-                            проблема
+                            Выявлены <span className={stl.highlight}>2</span>{' '}
+                            проблемы
                           </b>
                         }
                       >
                         <>
                           {t('compliance')}: <b className={stl.highlight}>1</b>
+                          <br />
+                          {t('control')}: <b className={stl.highlight}>1</b>
                         </>
                       </SectionMessage>
                       <Paper
@@ -229,7 +231,7 @@ export const DetailPage = () => {
                               <Tag
                                 variant='primary'
                                 color='error'
-                                label='Complience'
+                                label={t('compliance')}
                                 size='xs'
                                 className={spacing({ mb: 's' })}
                               />
@@ -248,6 +250,45 @@ export const DetailPage = () => {
                               </SectionMessage>
                             </Stack>
                           ))}
+                          <Stack
+                            className={stl.issueItem}
+                            fullWidth
+                            direction='column'
+                            align='start'
+                            justify='start'
+                            onClick={handleIssueClick}
+                          >
+                            <Tag
+                              variant='primary'
+                              color='warning'
+                              label={t('control')}
+                              size='xs'
+                              className={spacing({ mb: 's' })}
+                            />
+                            <Typography
+                              variant='text-m_1'
+                              className={spacing({ mb: 's' })}
+                            >
+                              <b>
+                                Не указаны банковские реквизиты валютного
+                                договора — требуется подтверждение от клиента.
+                              </b>
+                            </Typography>
+                            <SectionMessage
+                              status='warning'
+                              title={
+                                <b>
+                                  Постановление Нацбанка РК № 40 от 30.03.2019,
+                                  пункт 5:
+                                </b>
+                              }
+                            >
+                              Если в платёжке по валютному договору отсутствуют
+                              или указаны неверно реквизиты договора (номер,
+                              учётный номер), банк не зачисляет деньги без
+                              письменного подтверждения от резидента.
+                            </SectionMessage>
+                          </Stack>
                         </Stack>
                       </Paper>
                     </Stack>
