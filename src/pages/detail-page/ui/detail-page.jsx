@@ -3,7 +3,6 @@ import { useDetailQuery } from '@/entities/contracts'
 import { Stack } from '@ozen-ui/kit/Stack'
 import { Tag } from '@ozen-ui/kit/TagNext'
 import {
-  ErrorCircleColoredIcon,
   InfoCircleColoredIcon,
   WarningTriangleColoredIcon
 } from '@ozen-ui/icons'
@@ -16,6 +15,7 @@ import stl from './detail-page.module.scss'
 import { ExecuteButton } from '@/widgets/contracts/execute-button/ui/execute-button.jsx'
 import { useTranslation } from 'react-i18next'
 import { SectionMessage } from '@ozen-ui/kit/SectionMessage'
+import { Button } from '@ozen-ui/kit/ButtonNext'
 
 const text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt nunc mauris, nec blandit velit pulvinar sollicitudin. Suspendisse venenatis, odio ut luctus varius, ipsum metus facilisis elit, eu efficitur ex neque at ligula. In mollis malesuada egestas. Cras laoreet magna lobortis nulla accumsan, sed aliquam risus cursus. Etiam molestie finibus ligula sed blandit. Suspendisse pharetra interdum accumsan. Morbi posuere mauris et pretium consectetur. Nam aliquet turpis a ante elementum, a faucibus tortor dapibus. Cras in erat diam. Nam eget accumsan est, sed congue quam. Sed laoreet facilisis erat nec lobortis. Nulla sit amet lacinia dui, eu feugiat arcu.
 
@@ -103,11 +103,44 @@ export const DetailPage = () => {
                   Валютный контроль: <b className={stl.highlight}>2</b>
                 </>
               </SectionMessage>
-              <Paper
-                className={stl.issuesBody}
-                radius='l'
-                background='main'
-              ></Paper>
+              <Paper className={stl.issuesBody} radius='l' background='main'>
+                <Stack
+                  fullWidth
+                  direction='column'
+                  divider={<Divider orientation='horizontal' flexItem />}
+                >
+                  {new Array(5).fill(null).map(() => (
+                    <Stack
+                      className={stl.issueItem}
+                      fullWidth
+                      direction='column'
+                      align='start'
+                      justify='start'
+                    >
+                      <Tag
+                        variant='secondary'
+                        color='error'
+                        label='Complience'
+                        size='xs'
+                        className={spacing({ mb: 's' })}
+                      />
+                      <Typography variant='text-m_1'>
+                        <b>Контрагент находиться в санкционном списке</b>
+                      </Typography>
+                      <Typography
+                        className={spacing({ mb: 's' })}
+                        variant='text-s'
+                        color='tertiary'
+                      >
+                        Пояснение
+                      </Typography>
+                      <Button size='l' variant='function'>
+                        Ссылка
+                      </Button>
+                    </Stack>
+                  ))}
+                </Stack>
+              </Paper>
             </Stack>
           )}
         </Stack>
