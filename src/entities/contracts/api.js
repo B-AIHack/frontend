@@ -23,3 +23,13 @@ export const useContractsQuery = (filter) =>
       return await request.get('/application/page', { params: { ...filter } })
     }
   })
+
+export const useDetailQuery = (id) =>
+  useQuery({
+    queryKey: ['detail', id],
+    queryFn: async (context) => {
+      const id = context.queryKey.at(1)
+
+      return await request.get(`/application/${id}`)
+    }
+  })

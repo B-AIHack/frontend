@@ -78,6 +78,11 @@ export const useUploader = () => {
     )
   }
 
+  const reset = () => {
+    setFiles([])
+    setLoadedFiles([])
+  }
+
   return {
     files,
     loadedFiles,
@@ -87,7 +92,8 @@ export const useUploader = () => {
     deleteFile,
     startLoadingForFiles,
     onChange,
-    allow
+    allow,
+    reset
   }
 }
 

@@ -1,6 +1,4 @@
 {
-  "deleteUser": "Удалить пользователя",
-  "whatHow": "{{what}} - это {{how}}",
   "layout": {
     "sider": {
       "title": "Bereke DeepMind",
@@ -40,5 +38,17 @@
     "button": "Выберите его",
     "hint": "Или",
     "label": "Перетащите файл контракта сюда"
+  },
+  "contractAnalyze": {
+    "title": "Анализ валютного договора"
+  },
+  "smthWentWrong": "Что-то пошло не так",
+  "compliance": "Сompliance",
+  "control": "Валютный контроль",
+  "executeButton": {
+    "executeAnalysis": "Запустить анализ",
+    "params": "Параметры запуска",
+    "close": "Закрыть",
+    "execute": "Запустить"
   }
 }

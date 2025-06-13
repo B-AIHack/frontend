@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import './i18n.js'
 
 import 'dayjs/locale/ru'
+import { DetailPage } from '@/pages/detail-page'
 
 dayjs.locale('ru')
 
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
             handle: {
               tKey: 'layout.sider.menu.foreignContracts',
               withButton: false
+            }
+          },
+          {
+            path: '/foreign-contracts/:id',
+            Component: DetailPage,
+            handle: {
+              tKey: 'contractAnalyze.title',
+              withButton: true
             }
           },
           { index: true, element: <Navigate to={'/foreign-contracts'} /> },

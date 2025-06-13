@@ -17,6 +17,7 @@ import { Divider } from '@ozen-ui/kit/Divider'
 import { BaseSelect } from '@/shared/ui/base-select'
 import { Tooltip } from '@ozen-ui/kit/Tooltip'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router'
 
 const initialFilter = {
   dateFrom: dayjs().format('YYYY-MM-DD'),
@@ -24,6 +25,7 @@ const initialFilter = {
 }
 
 export const ContractsPage = () => {
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(10)
@@ -188,8 +190,12 @@ export const ContractsPage = () => {
             }
           },
           {
-            render: () => (
-              <Button size='2xs' color='secondary'>
+            render: (item) => (
+              <Button
+                size='2xs'
+                color='secondary'
+                onClick={() => navigate(`/foreign-contracts/${item.id}`)}
+              >
                 {t('contractsPage.startAnalyze')}
               </Button>
             ),

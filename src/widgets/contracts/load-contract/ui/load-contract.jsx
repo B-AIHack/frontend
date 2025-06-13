@@ -23,7 +23,7 @@ import { useSnackbar } from '@ozen-ui/kit/Snackbar'
 import { Typography } from '@ozen-ui/kit/Typography'
 import { useCreateContractMutation } from '@/entities/contracts'
 
-export const LoadContract = ({ refresh }) => {
+export const LoadContract = () => {
   const { mutateAsync: createAsync } = useCreateContractMutation()
 
   const [open, { on, off }] = useBoolean(false)
@@ -41,15 +41,23 @@ export const LoadContract = ({ refresh }) => {
       })
     }
 
-    await createAsync({
-      contractNumber,
-      uploadedFileIds: Object.values(filesControl.loadedFiles).map(
-        (file) => file.id
-      )
-    })
+    try {
+      await createAsync({
+        contractNumber,
+        uploadedFileIds: Object.values(filesControl.loadedFiles).map(
+          (file) => file.id
+        )
+      })
 
-    off()
-    refresh?.()
+      off()
+      setContractNumber('')
+      filesControl.reset()
+    } catch (error) {
+      pushMessage({
+        title: error?.response?.data?.message ?? t('smthWentWrong'),
+        status: 'error'
+      })
+    }
   }
 
   return (

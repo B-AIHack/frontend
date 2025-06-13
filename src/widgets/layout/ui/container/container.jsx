@@ -9,11 +9,14 @@ import { Stack } from '@ozen-ui/kit/Stack'
 
 export const Container = () => {
   const { title, withButton } = useTitle()
+
   const navigate = useNavigate()
 
-  const renderRight = withButton ? (
-    <TitleIconButton icon={<ArrowLeftIcon />} onClick={() => navigate(-1)} />
-  ) : null
+  const renderLeft = withButton
+    ? () => (
+        <TitleIconButton icon={ArrowLeftIcon} onClick={() => navigate(-1)} />
+      )
+    : null
 
   return (
     <div className={stl.container}>
@@ -21,7 +24,7 @@ export const Container = () => {
         size='s'
         variant='main'
         className={spacing({ pt: 'l', mb: 'l' })}
-        renderRight={renderRight}
+        renderLeft={renderLeft}
       >
         {title}
       </Title>

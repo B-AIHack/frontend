@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+}
+
+.contextModal {
+  position: absolute;
+  z-index: var(--z-index-absolute);
+  bottom: -64px;
+  right: 0;
+  width: 200px;
+  padding: var(--spacing-s);
+  box-shadow: var(--shadow-m);
+}
+
+.drawer {
+  --drawer-next-max-width: 400px !important;
+}

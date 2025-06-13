@@ -1,0 +1,35 @@
+.container {
+  height: calc(-156px + 100vh);
+  width: 100%;
+}
+
+.issues {
+  flex: 0 0 320px;
+  height: 100%;
+
+}
+
+.contractText {
+  flex: 1 1;
+  overflow-y: auto;
+  height: 100%;
+  padding: var(--spacing-m);
+}
+
+.paperContainer {
+  height: 100%;
+}
+
+.issuesHeader {
+  flex-shrink: 0;
+}
+
+.issuesBody {
+  padding: var(--spacing-m);
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.highlight {
+  color: var(--color-content-error);
+}
