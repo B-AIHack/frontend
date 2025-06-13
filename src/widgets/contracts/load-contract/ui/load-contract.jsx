@@ -21,8 +21,11 @@ import { prepareFiles, useUploader } from '../model/useUploader.js'
 import { Stack } from '@ozen-ui/kit/Stack'
 import { useSnackbar } from '@ozen-ui/kit/Snackbar'
 import { Typography } from '@ozen-ui/kit/Typography'
+import { useCreateContractMutation } from '@/entities/contracts'
 
-export const LoadContract = () => {
+export const LoadContract = ({ refresh }) => {
+  const { mutateAsync: createAsync } = useCreateContractMutation()
+
   const [open, { on, off }] = useBoolean(false)
   const { t } = useTranslation()
   const { pushMessage } = useSnackbar()
@@ -30,13 +33,23 @@ export const LoadContract = () => {
   const [contractNumber, setContractNumber] = useState('')
   const filesControl = useUploader()
 
-  const onSubmit = () => {
-    if (contractNumber.length === 0 || filesControl.files.length === 0) {
+  const onSubmit = async () => {
+    if (contractNumber.length === 0 || filesControl.loadedFiles.length === 0) {
       pushMessage({
         title: t('contractsPage.validation'),
         status: 'warning'
       })
     }
+
+    await createAsync({
+      contractNumber,
+      uploadedFileIds: Object.values(filesControl.loadedFiles).map(
+        (file) => file.id
+      )
+    })
+
+    off()
+    refresh?.()
   }
 
   return (

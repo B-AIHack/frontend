@@ -1,1 +1,1 @@
-export * from './ui.jsx'
+export * from './ui/contracts-page'

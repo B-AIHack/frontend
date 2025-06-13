@@ -1,16 +1,8 @@
 import axios from 'axios'
-import AxiosMockAdapter from 'axios-mock-adapter'
 
 export const request = axios.create({
-  baseURL: '/api'
+  // baseURL: 'http://10.16.38.163:8090/bereke-deepmind-backend/api/v1',
+  baseURL: 'http://94.131.86.131:8090/bereke-deepmind-backend/api/v1'
 })
 
 // MOCKS (temp)
-
-const mock = new AxiosMockAdapter(request, { delayResponse: 300 })
-
-mock.onGet('/api/users').reply(200, {
-  users: [{ id: 1, name: 'John Smith' }]
-})
-
-mock.onPost('/api/users').reply(200)

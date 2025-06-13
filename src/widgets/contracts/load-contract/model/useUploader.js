@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useUploadMutation } from '@/entities/contracts'
 
 export const getFileFormat = (file) =>
   file.name.match(/\.([^.]+)$/)?.[1]?.toUpperCase() ?? null
@@ -22,12 +23,15 @@ const getFileSize = (file, decimals) => formatFileSize(file.size, decimals ?? 2)
 const getFileId = (file) => file.name + file.type
 
 export const useUploader = () => {
+  const { mutateAsync: uploadAsync } = useUploadMutation()
+
   const [files, setFiles] = useState([])
+  const [loadedFiles, setLoadedFiles] = useState({})
 
   const [statusById, setStatusById] = useState({})
 
   const startLoadingForFiles = async (files) => {
-    files.forEach((file) => {
+    for await (const file of files) {
       const id = getFileId(file)
 
       setStatusById((previousState) => ({
@@ -35,13 +39,20 @@ export const useUploader = () => {
         [id]: 'loading'
       }))
 
-      setTimeout(() => {
-        setStatusById((previousState) => ({
-          ...previousState,
-          [id]: 'loaded'
-        }))
-      }, 400)
-    })
+      const formData = new FormData()
+      formData.append('files', file)
+
+      const loadedFile = await uploadAsync(formData)
+
+      setStatusById((previousState) => ({
+        ...previousState,
+        [id]: 'loaded'
+      }))
+      setLoadedFiles((previousState) => ({
+        ...previousState,
+        [id]: loadedFile.data.ids.at(0)
+      }))
+    }
   }
 
   const deleteFile = (id) => {
@@ -64,6 +75,7 @@ export const useUploader = () => {
 
   return {
     files,
+    loadedFiles,
     setFiles,
     statusById,
     setStatusById,

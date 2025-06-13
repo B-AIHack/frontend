@@ -7,6 +7,10 @@ import { Indicator } from '@ozen-ui/kit/Indicator'
 import { Typography } from '@ozen-ui/kit/Typography'
 import { LoadContract } from '@/widgets/contracts/load-contract'
 import { spacing } from '@ozen-ui/kit/MixSpacing'
+import { IconButton } from '@ozen-ui/kit/IconButtonNext'
+import { MenuVerticalIcon } from '@ozen-ui/icons'
+import { useContractsQuery } from '@/entities/contracts'
+import stl from './contracts-page.module.scss'
 
 export const ContractsPage = () => {
   const { t } = useTranslation()
@@ -24,6 +28,8 @@ export const ContractsPage = () => {
 
   const header = null
 
+  const { data: contracts, isFetching } = useContractsQuery({ page, size })
+
   return (
     <div>
       <Stack justify='end' fullWidth className={spacing({ mb: '2xl' })}>
@@ -35,28 +41,46 @@ export const ContractsPage = () => {
         header={header}
         columns={[
           {
+            title: '#',
+            columnKey: 'id',
+            render: (item) => item.id,
+            width: '60'
+          },
+          {
             title: t('contractsPage.number'),
             columnKey: 'number',
-            render: (item) => item.number,
-            width: '200'
+            render: (item) => (
+              <Typography className={stl.number} variant='text-s'>
+                {item.contractNumber}
+              </Typography>
+            ),
+            width: '140'
           },
           {
             title: t('contractsPage.dateTime'),
             columnKey: 'dateTime',
-            render: (item) => item.dateTime,
+            render: (item) => item.createdAt,
             width: '200'
           },
           {
             title: t('contractsPage.status'),
-            columnKey: 'dateTime',
-            render: (item) => (
-              <Stack justify='center' align='center' gap='s'>
-                <Indicator size='s' variant='info' />
-                <Typography variant='text-xs'>
-                  {t('contractsPage.filesLoading')}
-                </Typography>
-              </Stack>
-            )
+            columnKey: 'status',
+            render: (item) => {
+              const variantMap = {
+                NEW: 'info',
+                PROCESSING: 'warning',
+                FINISHED: 'success'
+              }
+
+              return (
+                <Stack justify='center' align='center' gap='s'>
+                  <Indicator size='s' variant={variantMap[item.status]} />
+                  <Typography variant='text-xs'>
+                    {t(`contractsPage.statusOptions.${item.status}`)}
+                  </Typography>
+                </Stack>
+              )
+            }
           },
           {
             render: () => (
@@ -64,27 +88,23 @@ export const ContractsPage = () => {
                 {t('contractsPage.startAnalyze')}
               </Button>
             ),
-            align: 'center'
-          }
-        ]}
-        dataSource={[
-          {
-            number: '120123123',
-            dateTime: '24.08.2025 14:32',
-            status: 'LOADING'
+            align: 'right',
+            columnKey: 'call-to-action'
           },
           {
-            number: 122
-          },
-          {
-            number: 124
+            width: '40',
+            render: () => (
+              <IconButton size='2xs' variant='ghost' icon={MenuVerticalIcon} />
+            ),
+            align: 'right'
           }
         ]}
+        dataSource={contracts?.data?.rows ?? []}
         idKey='id'
-        isFetching={false}
+        isFetching={isFetching}
         page={page}
         pageSize={size}
-        totalCount={1111}
+        totalCount={contracts?.data?.totalElementSize ?? 0}
         handlePageChange={handlePageChange}
         handleSizeChange={handleSizeChange}
       />
