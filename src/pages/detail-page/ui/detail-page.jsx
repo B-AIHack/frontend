@@ -37,8 +37,10 @@ export const DetailPage = () => {
 
   useEffect(() => {
     try {
-      if (detail?.data?.validationResult) {
-        setValidationResults(JSON.parse(detail?.data?.validationResults))
+      if (detail?.data?.validationResults) {
+        const temp = detail?.data?.validationResults.replaceAll('\n', '')
+
+        setValidationResults(JSON.parse(temp))
       }
     } catch (e) {
       console.error(e)
