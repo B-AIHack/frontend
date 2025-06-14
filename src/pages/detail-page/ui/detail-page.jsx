@@ -12,7 +12,7 @@ import { Divider } from '@ozen-ui/kit/Divider'
 import { Typography } from '@ozen-ui/kit/Typography'
 import { spacing } from '@ozen-ui/kit/MixSpacing'
 import { Paper } from '@ozen-ui/kit/Paper'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import stl from './detail-page.module.scss'
 import { ExecuteButton } from '@/widgets/contracts/execute-button'
 import { useTranslation } from 'react-i18next'
@@ -32,6 +32,18 @@ export const DetailPage = () => {
   const { data: detail } = useDetailQuery(params?.id)
 
   const ref = useRef()
+
+  const [validationResults, setValidationResults] = useState(null)
+
+  useEffect(() => {
+    try {
+      if (detail?.data?.validationResult) {
+        setValidationResults(JSON.parse(detail?.data?.validationResults))
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [detail])
 
   // const handleIssueClick = () => {
   //   ref?.current?.scrollIntoView({ behavior: 'smooth' })
@@ -260,18 +272,17 @@ export const DetailPage = () => {
                 )
               },
               {
-                disabled:
-                  detail?.data?.status === 'PROCESSING' ||
-                  detail?.data?.approved ||
-                  !detail?.data?.validationResults?.length,
+                disabled: !['PROCESSING', 'FINISHED'].includes(
+                  detail?.data?.status
+                ),
                 label: t('detailPage.problems'),
                 iconRight: () =>
                   detail?.data?.status === 'FINISHED' &&
                   !detail?.data?.approved &&
-                  detail?.data?.validationResults?.length > 0 && (
+                  validationResults?.length > 0 && (
                     <Badge
                       max={100}
-                      content={detail?.data?.validationResults?.length}
+                      content={validationResults?.length}
                       color='errorDark'
                     />
                   ),
@@ -292,7 +303,7 @@ export const DetailPage = () => {
                           <b>
                             {t('detailPage.problemsAmount')}:{' '}
                             <span className={stl.highlight}>
-                              {detail?.data?.validationResults?.length ?? 0}
+                              {validationResults?.length ?? 0}
                             </span>
                           </b>
                         }
@@ -309,7 +320,7 @@ export const DetailPage = () => {
                             <Divider orientation='horizontal' flexItem />
                           }
                         >
-                          {detail?.data?.validationResults?.map((item) => (
+                          {validationResults?.map((item) => (
                             <Stack
                               className={stl.issueItem}
                               fullWidth

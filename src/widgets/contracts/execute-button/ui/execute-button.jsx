@@ -15,13 +15,13 @@ import { Toggle } from '@ozen-ui/kit/ToggleNext'
 import { Stack } from '@ozen-ui/kit/Stack'
 import { useTranslation } from 'react-i18next'
 import { useExecuteProcessMutation } from '@/entities/contracts'
-// import { useSnackbar } from '@ozen-ui/kit/Snackbar'
+import { useSnackbar } from '@ozen-ui/kit/Snackbar'
 
 export const ExecuteButton = ({ disabled, id }) => {
   const { t } = useTranslation()
   const containerRef = useRef()
   const [open, { on, off }] = useBoolean()
-  // const { pushMessage } = useSnackbar()
+  const { pushMessage } = useSnackbar()
 
   const [findOwners, { toggle: toggleFindOwners }] = useBoolean()
   const [control, { toggle: toggleControl }] = useBoolean()
@@ -38,6 +38,11 @@ export const ExecuteButton = ({ disabled, id }) => {
     //
     //   return
     // }
+
+    pushMessage({
+      status: 'info',
+      title: 'Анализ запущен, нет необходимости запускать повторно'
+    })
 
     execProcess({
       id,
@@ -56,7 +61,7 @@ export const ExecuteButton = ({ disabled, id }) => {
         size='s'
         open={open}
         deviceType='desktop'
-        onClose={isPending ? () => {} : off}
+        onClose={off}
       >
         <DrawerHeader>
           <DrawerTitle>{t('executeButton.params')}</DrawerTitle>
@@ -77,11 +82,7 @@ export const ExecuteButton = ({ disabled, id }) => {
         </DrawerBody>
         <DrawerFooter>
           <DrawerFooterButtonsGroup>
-            <DrawerFooterButton
-              color='tertiary'
-              onClick={off}
-              loading={isPending}
-            >
+            <DrawerFooterButton color='tertiary' onClick={off}>
               {t('executeButton.close')}
             </DrawerFooterButton>
             <DrawerFooterButton onClick={submit} loading={isPending}>
