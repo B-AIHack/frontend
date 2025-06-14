@@ -15,13 +15,13 @@ import { Toggle } from '@ozen-ui/kit/ToggleNext'
 import { Stack } from '@ozen-ui/kit/Stack'
 import { useTranslation } from 'react-i18next'
 import { useExecuteProcessMutation } from '@/entities/contracts'
-import { useSnackbar } from '@ozen-ui/kit/Snackbar'
+// import { useSnackbar } from '@ozen-ui/kit/Snackbar'
 
 export const ExecuteButton = ({ disabled, id }) => {
   const { t } = useTranslation()
   const containerRef = useRef()
   const [open, { on, off }] = useBoolean()
-  const { pushMessage } = useSnackbar()
+  // const { pushMessage } = useSnackbar()
 
   const [findOwners, { toggle: toggleFindOwners }] = useBoolean()
   const [control, { toggle: toggleControl }] = useBoolean()
@@ -29,20 +29,20 @@ export const ExecuteButton = ({ disabled, id }) => {
   const { mutateAsync: execProcess, isPending } = useExecuteProcessMutation()
 
   const submit = () => {
-    if (!findOwners) {
-      pushMessage({
-        status: 'warning',
-        title: t('executeButton.selectAtLeastOne'),
-        lifetime: 1500
-      })
-
-      return
-    }
+    // if (!findOwners) {
+    //   pushMessage({
+    //     status: 'warning',
+    //     title: t('executeButton.selectAtLeastOne'),
+    //     lifetime: 1500
+    //   })
+    //
+    //   return
+    // }
 
     execProcess({
       id,
       process: true,
-      findOwners
+      findOwners: true
     })
   }
 

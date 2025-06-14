@@ -262,12 +262,18 @@ export const DetailPage = () => {
               {
                 disabled:
                   detail?.data?.status === 'PROCESSING' ||
-                  detail?.data?.approved,
+                  detail?.data?.approved ||
+                  !detail?.data?.validationResults?.length,
                 label: t('detailPage.problems'),
                 iconRight: () =>
                   detail?.data?.status === 'FINISHED' &&
-                  !detail?.data?.approved && (
-                    <Badge max={100} content={2} color='errorDark' />
+                  !detail?.data?.approved &&
+                  detail?.data?.validationResults?.length > 0 && (
+                    <Badge
+                      max={100}
+                      content={detail?.data?.validationResults?.length}
+                      color='errorDark'
+                    />
                   ),
                 content: (
                   <Stack className={stl.problemsContainer} fullWidth gap='l'>
@@ -284,17 +290,13 @@ export const DetailPage = () => {
                         status='error'
                         title={
                           <b>
-                            {t('detailPage.problems')}:{' '}
-                            <span className={stl.highlight}>2</span> проблемы
+                            {t('detailPage.problemsAmount')}:{' '}
+                            <span className={stl.highlight}>
+                              {detail?.data?.validationResults?.length ?? 0}
+                            </span>
                           </b>
                         }
-                      >
-                        <>
-                          {t('compliance')}: <b className={stl.highlight}>1</b>
-                          <br />
-                          {t('control')}: <b className={stl.highlight}>1</b>
-                        </>
-                      </SectionMessage>
+                      ></SectionMessage>
                       <Paper
                         className={stl.issuesBody}
                         radius='l'
@@ -307,76 +309,25 @@ export const DetailPage = () => {
                             <Divider orientation='horizontal' flexItem />
                           }
                         >
-                          {new Array(1).fill(null).map(() => (
+                          {detail?.data?.validationResults?.map((item) => (
                             <Stack
                               className={stl.issueItem}
                               fullWidth
                               direction='column'
                               align='start'
                               justify='start'
-                              // onClick={handleIssueClick}
                             >
-                              <Tag
-                                variant='primary'
-                                color='error'
-                                label={t('compliance')}
-                                size='xs'
-                                className={spacing({ mb: 's' })}
-                              />
                               <Typography
                                 variant='text-m_1'
                                 className={spacing({ mb: 's' })}
                               >
-                                <b>
-                                  Контрагент находиться в санкционном списке
-                                </b>
+                                <b>{item?.rule ?? ''}</b>
                               </Typography>
                               <SectionMessage status='error'>
-                                Учредитель ООО «МС ЭЛЕКТРИК»{' '}
-                                <b>Сафонов Алексей Петрович</b> находится в
-                                санкционном списке EU
+                                {item?.references?.at(0) ?? ''}
                               </SectionMessage>
                             </Stack>
                           ))}
-                          <Stack
-                            className={stl.issueItem}
-                            fullWidth
-                            direction='column'
-                            align='start'
-                            justify='start'
-                            // onClick={handleIssueClick}
-                          >
-                            <Tag
-                              variant='primary'
-                              color='warning'
-                              label={t('control')}
-                              size='xs'
-                              className={spacing({ mb: 's' })}
-                            />
-                            <Typography
-                              variant='text-m_1'
-                              className={spacing({ mb: 's' })}
-                            >
-                              <b>
-                                Не указаны банковские реквизиты валютного
-                                договора — требуется подтверждение от клиента.
-                              </b>
-                            </Typography>
-                            <SectionMessage
-                              status='warning'
-                              title={
-                                <b>
-                                  Постановление Нацбанка РК № 40 от 30.03.2019,
-                                  пункт 5:
-                                </b>
-                              }
-                            >
-                              Если в платёжке по валютному договору отсутствуют
-                              или указаны неверно реквизиты договора (номер,
-                              учётный номер), банк не зачисляет деньги без
-                              письменного подтверждения от резидента.
-                            </SectionMessage>
-                          </Stack>
                         </Stack>
                       </Paper>
                     </Stack>
