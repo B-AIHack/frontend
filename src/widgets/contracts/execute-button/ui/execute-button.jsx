@@ -26,7 +26,7 @@ export const ExecuteButton = ({ disabled, id }) => {
   const [findOwners, { toggle: toggleFindOwners }] = useBoolean()
   const [control, { toggle: toggleControl }] = useBoolean()
 
-  const { mutateAsync: execProcess } = useExecuteProcessMutation()
+  const { mutateAsync: execProcess, isPending } = useExecuteProcessMutation()
 
   const submit = () => {
     if (!findOwners) {
@@ -56,7 +56,7 @@ export const ExecuteButton = ({ disabled, id }) => {
         size='s'
         open={open}
         deviceType='desktop'
-        onClose={off}
+        onClose={isPending ? () => {} : off}
       >
         <DrawerHeader>
           <DrawerTitle>{t('executeButton.params')}</DrawerTitle>
@@ -72,16 +72,19 @@ export const ExecuteButton = ({ disabled, id }) => {
               checked={control}
               label={t('control')}
               onChange={toggleControl}
-              disabled
             />
           </Stack>
         </DrawerBody>
         <DrawerFooter>
           <DrawerFooterButtonsGroup>
-            <DrawerFooterButton color='tertiary' onClick={off}>
+            <DrawerFooterButton
+              color='tertiary'
+              onClick={off}
+              loading={isPending}
+            >
               {t('executeButton.close')}
             </DrawerFooterButton>
-            <DrawerFooterButton onClick={submit}>
+            <DrawerFooterButton onClick={submit} loading={isPending}>
               {t('executeButton.execute')}
             </DrawerFooterButton>
           </DrawerFooterButtonsGroup>

@@ -21,7 +21,8 @@ export const useContractsQuery = (filter) =>
       const filter = context.queryKey.at(1)
 
       return await request.get('/application/page', { params: { ...filter } })
-    }
+    },
+    refetchInterval: 8 * 1000
   })
 
 export const useDetailQuery = (id) =>
@@ -31,7 +32,8 @@ export const useDetailQuery = (id) =>
       const id = context.queryKey.at(1)
 
       return await request.get(`/application/${id}`)
-    }
+    },
+    refetchInterval: 8 * 1000
   })
 
 export const useExecuteProcessMutation = () =>
@@ -40,5 +42,8 @@ export const useExecuteProcessMutation = () =>
       const { id, ...data } = args
 
       return await request.post(`/application/process/${id}`, data)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['detail'] })
     }
   })

@@ -98,7 +98,7 @@ export const ContractsPage = () => {
         size='s'
         options={[
           { label: '', value: '' },
-          ...['NEW', 'PROCESSING', 'FINISHED'].map((item) => ({
+          ...['PARSING', 'NEW', 'PROCESSING', 'FINISHED'].map((item) => ({
             label: t(`contractsPage.statusOptions.${item}`),
             value: item
           }))
@@ -131,7 +131,7 @@ export const ContractsPage = () => {
     </Stack>
   )
 
-  const { data: contracts, isFetching } = useContractsQuery({
+  const { data: contracts, isLoading } = useContractsQuery({
     page,
     size,
     ...filter
@@ -174,6 +174,7 @@ export const ContractsPage = () => {
             columnKey: 'status',
             render: (item) => {
               const variantMap = {
+                PARSING: 'warning',
                 NEW: 'info',
                 PROCESSING: 'warning',
                 FINISHED: 'success'
@@ -194,9 +195,10 @@ export const ContractsPage = () => {
               <Button
                 size='2xs'
                 color='secondary'
+                disabled={item.status === 'PARSING'}
                 onClick={() => navigate(`/foreign-contracts/${item.id}`)}
               >
-                {t('contractsPage.startAnalyze')}
+                {t('contractsPage.goToAnalyze')}
               </Button>
             ),
             align: 'right',
@@ -212,7 +214,7 @@ export const ContractsPage = () => {
         ]}
         dataSource={contracts?.data?.rows ?? []}
         idKey='id'
-        isFetching={isFetching}
+        isFetching={isLoading}
         page={page}
         pageSize={size}
         totalCount={contracts?.data?.totalElementSize ?? 0}

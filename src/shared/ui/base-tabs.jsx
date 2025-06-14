@@ -32,6 +32,7 @@ export const BaseTabs = ({ config }) => {
             label={configItem.label}
             key={index}
             value={index}
+            disabled={configItem.disabled}
           />
         ))}
       </Tabs>

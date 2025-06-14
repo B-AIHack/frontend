@@ -17,7 +17,7 @@
     "number": "Номер контракта",
     "dateTime": "Дата и время",
     "status": "Статус",
-    "startAnalyze": "Запустить анализ",
+    "goToAnalyze": "Перейти к анализу",
     "filesLoading": "Файлы загружаются",
     "loadContract": "Загрузить контракт",
     "load": "Загрузить",
@@ -26,8 +26,9 @@
     "contract": "Контракт",
     "statusOptions": {
       "NEW": "Новый",
-      "PROCESSING": "Обрабатывается",
-      "FINISHED": "Анализ закончен"
+      "PROCESSING": "Анализ в процессе",
+      "FINISHED": "Анализ закончен",
+      "PARSING": "Обрабатываем документ"
     },
     "dateFrom": "Дата с",
     "dateTo": "Дата по",
@@ -61,8 +62,16 @@
     "currency": "Валюта",
     "counterpartyName": "Название контрагента",
     "counterpartyCountry": "Страна контрагента",
+    "counterpartyBank": "Банк контрагента",
     "resultOptions": {
-      "FAILED": "Отказано"
-    }
+      "FAILED": "Отказано",
+      "ACCEPTED": "Принято"
+    },
+    "contractDate": "Дата контракта",
+    "repatriationTerm": "Дата репатриации",
+    "buyer": "Покупатель",
+    "seller": "Продавец",
+    "buyerInn": "ИНН Покупателя",
+    "sellerInn": "ИНН Продавеца"
   }
 }
