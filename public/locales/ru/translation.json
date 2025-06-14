@@ -49,7 +49,8 @@
     "executeAnalysis": "Запустить анализ",
     "params": "Параметры запуска",
     "close": "Закрыть",
-    "execute": "Запустить"
+    "execute": "Запустить",
+    "selectAtLeastOne": "Выберите хотя бы 1 параметр запуска"
   },
   "detailPage": {
     "problems": "Выявленные проблемы",

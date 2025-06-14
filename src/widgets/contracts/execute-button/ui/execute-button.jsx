@@ -14,14 +14,37 @@ import {
 import { Toggle } from '@ozen-ui/kit/ToggleNext'
 import { Stack } from '@ozen-ui/kit/Stack'
 import { useTranslation } from 'react-i18next'
+import { useExecuteProcessMutation } from '@/entities/contracts'
+import { useSnackbar } from '@ozen-ui/kit/Snackbar'
 
-export const ExecuteButton = ({ disabled }) => {
+export const ExecuteButton = ({ disabled, id }) => {
   const { t } = useTranslation()
   const containerRef = useRef()
   const [open, { on, off }] = useBoolean()
+  const { pushMessage } = useSnackbar()
 
-  const [compliance, { toggle: toggleCompliance }] = useBoolean()
+  const [findOwners, { toggle: toggleFindOwners }] = useBoolean()
   const [control, { toggle: toggleControl }] = useBoolean()
+
+  const { mutateAsync: execProcess } = useExecuteProcessMutation()
+
+  const submit = () => {
+    if (!findOwners) {
+      pushMessage({
+        status: 'warning',
+        title: t('executeButton.selectAtLeastOne'),
+        lifetime: 1500
+      })
+
+      return
+    }
+
+    execProcess({
+      id,
+      process: true,
+      findOwners
+    })
+  }
 
   return (
     <div className={stl.container} ref={containerRef}>
@@ -41,14 +64,15 @@ export const ExecuteButton = ({ disabled }) => {
         <DrawerBody>
           <Stack fullWidth gap='m' direction='column'>
             <Toggle
-              checked={compliance}
+              checked={findOwners}
               label={t('compliance')}
-              onChange={toggleCompliance}
+              onChange={toggleFindOwners}
             />
             <Toggle
               checked={control}
               label={t('control')}
               onChange={toggleControl}
+              disabled
             />
           </Stack>
         </DrawerBody>
@@ -57,7 +81,7 @@ export const ExecuteButton = ({ disabled }) => {
             <DrawerFooterButton color='tertiary' onClick={off}>
               {t('executeButton.close')}
             </DrawerFooterButton>
-            <DrawerFooterButton>
+            <DrawerFooterButton onClick={submit}>
               {t('executeButton.execute')}
             </DrawerFooterButton>
           </DrawerFooterButtonsGroup>

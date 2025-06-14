@@ -33,3 +33,12 @@ export const useDetailQuery = (id) =>
       return await request.get(`/application/${id}`)
     }
   })
+
+export const useExecuteProcessMutation = () =>
+  useMutation({
+    mutationFn: async (args) => {
+      const { id, ...data } = args
+
+      return await request.post(`/application/process/${id}`, data)
+    }
+  })
